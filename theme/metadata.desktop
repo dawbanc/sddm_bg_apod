@@ -1,0 +1,13 @@
+[SddmGreeterTheme]
+Name="NASA: Astronomy Picture of the Day"
+Author=dawbanc
+Type=sddm-theme
+Version=0.1
+Website=https://github.com/dawbanc
+Screenshot=preview.png
+MainScript=Main.qml
+ConfigFile=theme.conf
+TranslationsDirectory=translations
+Theme-Id=nasa_apod
+Theme-API=2.0
+QtVersion=6
