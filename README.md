@@ -14,10 +14,18 @@ Head to NASA's [website for API keys](https://api.nasa.gov/). Then fill in your 
 ### System Requirements
 I am running this with KDE Plasma 6 on Fedora. Other systems may be unsupported, but I will do my best to help debug issues!
 
+You will need `git` to download.
+
 # How to Install and Uninstall
 
 > Sidenote for people who are newer to linux:
 > You should never install things from the internet on your machine without looking through the files. The Makefile calls script/install.sh and script/uninstall.sh and copies theme on to your system. Please review these before installing.
+
+### To download:
+Run:
+```
+git clone https://github.com/dawbanc/sddm_bg_apod.git
+```
 
 ### To install:
 Copy the NASA API key (if you don't have one, go read the Requirements section) into the config file replacing `INSERT_YOUR_API_KEY_HERE`.
