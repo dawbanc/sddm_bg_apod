@@ -57,7 +57,7 @@ You may be able to get more relevant information by viewing /var/log/dynamic_sdd
 
 ### Other issues
 Please file an issue on the Github's [issue page](https://github.com/dawbanc/sddm_bg_apod/issues).
-Please include a copy (NOT A SCREENSHOT) of your dsb.log as well as the output of `kinfo` and your `sddm` version.
+Please include a copy (__NOT A SCREENSHOT__) of your dsb.log as well as the output of `kinfo` and your `sddm` version.
 For SDDM version, you may have to use your distro's package manager to get version; ie for Fedora: `dnf info sddm`
 
 
