@@ -9,7 +9,7 @@ I was tired of my desktop background and SDDM background not matching. While thi
 ### NASA API Key
 You will need to aquire your own NASA API key. Don't worry, they are free. 
 
-Head to NASA's [website for API keys][https://api.nasa.gov/]. Then fill in your information and hit sign up. You should receive your API key via email address. If not, you may need to contact NASA.
+Head to NASA's [website for API keys](https://api.nasa.gov/). Then fill in your information and hit sign up. You should receive your API key via email address. If not, you may need to contact NASA.
 
 ### System Requirements
 I am running this with KDE Plasma 6 on Fedora. Other systems may be unsupported, but I will do my best to help debug issues!
@@ -48,6 +48,6 @@ Then open a new terminal and the picture should download.
 You may be able to get more relevant information by viewing /var/log/dynamic_sddm_bg/dsb.log
 
 ### Other issues
-Please file an issue on the Github's [issue page][https://github.com/dawbanc/sddm_bg_apod/issues].
+Please file an issue on the Github's [issue page](https://github.com/dawbanc/sddm_bg_apod/issues).
 Please include a copy (NOT A SCREENSHOT) of your dsb.log as well as the output of `kinfo` and your `sddm` version.
 For SDDM version, you may have to use your distro's package manager to get version; ie for Fedora: `dnf info sddm`
