@@ -10,7 +10,9 @@ clean:
 	@echo "Project cleaned!"
 
 install:
-	@# Create directory 
+	@# Create directories for log and photo
+	mkdir -p /var/log/dynamic_sddm_bg
+	mkdir -p /etc/dynamic_sddm_bg
 	@# Copy over script files
 	@# Copy over theme
 	@echo "Please go to your sddm settings and select 'NASA Astronomy Picture of the Day' "
@@ -19,4 +21,6 @@ install:
 	@echo "sddm_bg_apod installed!"
 
 uninstall:
-	@echo "Please switch to a different 
+	@echo "Please switch to a different theme other than 'NASA Astronomy Picture of the Day' "
+	@read -n1 -s -r -p "Press any key to continue..."
+	@# Remove 
