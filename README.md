@@ -34,14 +34,14 @@ Then run:
 ```
 sudo make install
 ```
-While running that command, you will need to open your system settings and navigate to `Colors & Themes` then `Login Screen (SDDM)`. Once there, choose the `"NASA: Astronomy Picture of the Day"` and apply.
+While running that command, you will need to open your system settings and navigate to `Colors & Themes` then `Login Screen (SDDM)`. Once there, choose the `"NASA: Astronomy Picture of the Day"` theme and apply. You may be prompted for superuser credentials.
 
 ### To uninstall:
 Run: 
 ```
 sudo make uninstall
 ```
-
+While running that command, you will need to open your system settings and navigate to `Colors & Themes` then `Login Screen (SDDM)`. Once there, choose a theme that is __NOT__ the `"NASA: Astronomy Picture of the Day"` theme and apply. You may be prompted for superuser credentials.
 
 # Debugging
 
@@ -59,3 +59,7 @@ You may be able to get more relevant information by viewing /var/log/dynamic_sdd
 Please file an issue on the Github's [issue page](https://github.com/dawbanc/sddm_bg_apod/issues).
 Please include a copy (NOT A SCREENSHOT) of your dsb.log as well as the output of `kinfo` and your `sddm` version.
 For SDDM version, you may have to use your distro's package manager to get version; ie for Fedora: `dnf info sddm`
+
+
+# Special notes
+The theme is based off of the Breeze theme for SDDM. However, if you have another theme you like more that you would like with the changing backgrounds, it is entirely possible to edit that theme and change it's background to the NASA: APOD. I suggest making a copy of that theme, then editing the `theme.conf`, you can change the name and the background. If you point the background property to `/etc/dynamic_sddm_bg/nasa_apod.jpg` with the script installed, you will have your own custom theme with the NASA Astronomy Picture of the Day as the background.
