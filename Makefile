@@ -2,13 +2,9 @@ include config
 
 all:
 	@echo -e "Top level directives:"
-	@echo -e "\t- clean"
 	@echo -e "\t- install"
 	@echo -e "\t- uninstall"
-
-clean:
-	@rm -rf apod_theme.tar.gz
-	@echo "Project cleaned!"
+	@echo -e "\t- reset_script"
 
 install:
 	script/install.sh ${NASA_API_KEY}
@@ -16,3 +12,5 @@ install:
 uninstall:
 	script/uninstall.sh
 
+reset_script:
+	touch -t 6512120000 /var/log/dynamic_sddm_bg/dsb.log
