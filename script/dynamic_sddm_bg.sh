@@ -1,13 +1,13 @@
 #!/usr/bin/sh
 
 logfile="/var/log/dynamic_sddm_bg/dsb.log"
-picture_location="/etc/dynamic_sddm_bg/nasa_potd.jpg"
+picture_location="/etc/dynamic_sddm_bg/nasa_apod.jpg"
 
 current_date=$(date +%Y-%m-%d)
 last_modified=$(date --date=@$(stat -c %Y /var/log/dynamic_sddm_bg/dsb.log) +%Y-%m-%d)
 log_date=$(date +%Y%m%d_%H%M)
 
-nasa_api_key="D9HsaZ6RNzHv63gNwb82NbrZ1hPTlDReHXXq6eYh"
+nasa_api_key="NASA_API_KEY_PLACEHOLDER"
 nasa_api_url="https://api.nasa.gov/planetary/apod?api_key=$nasa_api_key&date=$current_date"
 
 if [ ! -f $logfile ]; then
