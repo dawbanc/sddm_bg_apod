@@ -1,6 +1,8 @@
 #!/usr/bin/sh
 
 logfile="/var/log/dynamic_sddm_bg/dsb.log"
+picture_location="/usr/share/dynamic_sddm_bg/nasa_apod.jpg"
+
 current_date=$(date +%Y-%m-%d)
 last_modified=$(date --date=@$(stat -c %Y /var/log/dynamic_sddm_bg/dsb.log) +%Y-%m-%d)
 log_date=$(date +%Y%m%d_%H%M)
