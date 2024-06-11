@@ -1,0 +1,13 @@
+[Unit]
+Description=Dynamic background for sddm
+Wants=network-online.target
+After=network.target network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/share/dynamic_sddm_bg/dynamic_sddm_bg.sh
+RemainAfterExit=No
+
+[Install]
+WantedBy=multi-user.target
+

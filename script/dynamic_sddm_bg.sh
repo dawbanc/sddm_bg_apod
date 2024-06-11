@@ -1,7 +1,7 @@
 #!/usr/bin/sh
 
 logfile="/var/log/dynamic_sddm_bg/dsb.log"
-picture_location="/etc/dynamic_sddm_bg/nasa_apod.jpg"
+picture_location="/usr/share/dynamic_sddm_bg/nasa_apod.jpg"
 
 current_date=$(date +%Y-%m-%d)
 last_modified=$(date --date=@$(stat -c %Y /var/log/dynamic_sddm_bg/dsb.log) +%Y-%m-%d)
@@ -15,8 +15,8 @@ for (( i=$net_max; i >=0; i-- )) do
 	if [ "$(hostname -I)" != "" ]; then
 		break
 	fi
-	#echo -e "$log_date : Waiting for network $i more time(s)..." >> "$logfile"
-	#sleep 5
+	echo -e "$log_date : Waiting for network $i more time(s)..." >> "$logfile"
+	sleep 5
 done
 
 if [ ! -f $logfile ]; then
