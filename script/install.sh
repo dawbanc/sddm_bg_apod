@@ -19,7 +19,7 @@ mkdir -p /usr/share/dynamic_sddm_bg
 # Copy over script files
 cp script/dynamic_sddm_bg.sh /usr/share/dynamic_sddm_bg/dynamic_sddm_bg.sh
 sed -i "s/NASA_API_KEY_PLACEHOLDER/${NASA_API_KEY}/g" /usr/share/dynamic_sddm_bg/dynamic_sddm_bg.sh
-chmod +x /usr/share/dynamic/sddm_bg/dynamic_sddm_bg.sh
+chmod +x /usr/share/dynamic_sddm_bg/dynamic_sddm_bg.sh
 
 # Copy over temporary photo
 cp theme/nasa_apod.jpg /usr/share/dynamic_sddm_bg/
@@ -40,7 +40,7 @@ systemctl enable dynamic_sddm_bg.service
 systemctl start dynamic_sddm_bg.service
 
 # Done
-echo "\n"
-echo "sddm_bg_apod installed!"
+echo -e "\n"
+echo "Dynamic SDDM Background installed!"
 
 
