@@ -10,6 +10,15 @@ log_date=$(date +%Y%m%d_%H%M)
 nasa_api_key="NASA_API_KEY_PLACEHOLDER"
 nasa_api_url="https://api.nasa.gov/planetary/apod?api_key=$nasa_api_key&date=$current_date"
 
+net_max=10
+for (( i=$net_max; i >=0; i-- )) do
+	if [ "$(hostname -I)" != "" ]; then
+		break
+	fi
+	#echo -e "$log_date : Waiting for network $i more time(s)..." >> "$logfile"
+	#sleep 5
+done
+
 if [ ! -f $logfile ]; then
 	touch -t 6512120000 $logfile
 	echo "$log_date : Logfile does not exist. Creating a 1965 file" >> "$logfile"
@@ -29,14 +38,14 @@ else
 	# get page
 	page=$(curl -s $auth $nasa_api_url)
 	# get media type
-	media_type=$(echo $page | jq -r '.media_type')
-
+	media_type=$(printf '%s' "$page" | jq -r '.media_type')
+	echo -e "$log_date : Media type: $media_type" >> "$logfile"
 	if [ $media_type = "image" ]; then
 	
-		media_url=$(echo $page | jq -r '.url')
+		media_url=$(printf '%s' "$page" | jq -r '.url')
 		
 		echo "$log_date : Copying NASA Picture of the Day to the daily location" >> "$logfile"
-		curl $media_url > $picture_location
+		curl -s $media_url > $picture_location
 
 		echo "$log_date : Done!" >> "$logfile"
 		echo "$log_date : " >> "$logfile"
