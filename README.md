@@ -14,7 +14,7 @@ Head to NASA's [website for API keys](https://api.nasa.gov/). Then fill in your 
 ### System Requirements
 I am running this with KDE Plasma 6 on Fedora. Other systems may be unsupported, but I will do my best to help debug issues!
 
-You will need `git` to download.
+You will need `git` to download and `systemctl` as this runs as a systemd service.
 
 # How to Install and Uninstall
 

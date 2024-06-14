@@ -1,15 +1,17 @@
 #!/usr/bin/sh
 
 logfile="/var/log/dynamic_sddm_bg/dsb.log"
+status_file="/usr/share/dynamic_sddm_bg/status"
 picture_location="/usr/share/dynamic_sddm_bg/nasa_apod.jpg"
 
 current_date=$(date +%Y-%m-%d)
-last_modified=$(date --date=@$(stat -c %Y /var/log/dynamic_sddm_bg/dsb.log) +%Y-%m-%d)
+last_modified=$(cat $status_file)
 log_date=$(date +%Y%m%d_%H%M)
 
 nasa_api_key="NASA_API_KEY_PLACEHOLDER"
 nasa_api_url="https://api.nasa.gov/planetary/apod?api_key=$nasa_api_key&date=$current_date"
 
+# wait for network
 net_max=10
 for (( i=$net_max; i >=0; i-- )) do
 	if [ "$(hostname -I)" != "" ]; then
@@ -18,10 +20,17 @@ for (( i=$net_max; i >=0; i-- )) do
 	echo -e "$log_date : Waiting for network $i more time(s)..." >> "$logfile"
 	sleep 5
 done
+# wait a little bit longer
+sleep 10
+
+if [ ! -f $status_file ]; then
+	touch $status_file
+	echo "" > $status_file
+fi
 
 if [ ! -f $logfile ]; then
-	touch -t 6512120000 $logfile
-	echo "$log_date : Logfile does not exist. Creating a 1965 file" >> "$logfile"
+	touch $logfile
+	echo "$log_date : Logfile does not exist. Created one..." >> "$logfile"
 fi
 
 if [ ! -f $picture_location ]; then
@@ -49,6 +58,7 @@ else
 
 		echo "$log_date : Done!" >> "$logfile"
 		echo "$log_date : " >> "$logfile"
+		echo "$current_date" > "$status_file"
 
 	else
 		

@@ -1,6 +1,7 @@
 # Ask user to switch to a different theme
 echo "Please switch to a different theme other than 'NASA Astronomy Picture of the Day' "
 read -n1 -s -r -p "Press any key to continue..."
+echo ""
 
 # stop service
 systemctl stop dynamic_sddm_bg.service
