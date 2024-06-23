@@ -14,7 +14,7 @@ nasa_api_url="https://api.nasa.gov/planetary/apod?api_key=$nasa_api_key&date=$cu
 # wait for network
 net_max=10
 for (( i=$net_max; i >=0; i-- )) do
-	if [ "$(hostname -I)" != "" ]; then
+	if [ "$(hostname -i)" != "" ]; then
 		break
 	fi
 	echo -e "$log_date : Waiting for network $i more time(s)..." >> "$logfile"
@@ -38,32 +38,28 @@ if [ ! -f $picture_location ]; then
 	touch $picture_location
 fi	
 
-if [ "$last_modified" = "$current_date" ]; then
-	echo "$log_date : Photo already copied today" >> "$logfile"
+## DOWNLOAD AND COPY THE FILE
+echo "$log_date : Downloading NASA picture of the day" >> "$logfile"
+# get page
+page=$(curl -s $auth $nasa_api_url)
+# get media type
+media_type=$(printf '%s' "$page" | jq -r '.media_type')
+echo -e "$log_date : Media type: $media_type" >> "$logfile"
+if [ $media_type = "image" ]; then
+
+	media_url=$(printf '%s' "$page" | jq -r '.url')
+
+	echo "$log_date : Copying NASA Picture of the Day to the daily location" >> "$logfile"
+	curl -s $media_url > $picture_location
+
+	echo "$log_date : Done!" >> "$logfile"
 	echo "$log_date : " >> "$logfile"
+	echo "$current_date" > "$status_file"
+
 else
-	## DOWNLOAD AND COPY THE FILE
-	echo "$log_date : Downloading NASA picture of the day" >> "$logfile"
-	# get page
-	page=$(curl -s $auth $nasa_api_url)
-	# get media type
-	media_type=$(printf '%s' "$page" | jq -r '.media_type')
-	echo -e "$log_date : Media type: $media_type" >> "$logfile"
-	if [ $media_type = "image" ]; then
-	
-		media_url=$(printf '%s' "$page" | jq -r '.url')
-		
-		echo "$log_date : Copying NASA Picture of the Day to the daily location" >> "$logfile"
-		curl -s $media_url > $picture_location
 
-		echo "$log_date : Done!" >> "$logfile"
-		echo "$log_date : " >> "$logfile"
-		echo "$current_date" > "$status_file"
+	echo "$log_date : ERROR: Nasa Picture of the Day is not an image type...will try again tomorrow" >> "$logfile"
+	echo "$log_date : " >> "$logfile"
 
-	else
-		
-		echo "$log_date : ERROR: Nasa Picture of the Day is not an image type...will try again tomorrow" >> "$logfile"
-		echo "$log_date : " >> "$logfile"
-
-	fi
 fi
+
