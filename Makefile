@@ -16,4 +16,5 @@ uninstall:
 reinstall: uninstall install reset_script
 
 reset_script:
-	touch -t 6512120000 /var/log/dynamic_sddm_bg/dsb.log
+	rm /usr/share/dynamic_sddm_bg/status
+	touch /usr/share/dynamic_sddm_bg/status
