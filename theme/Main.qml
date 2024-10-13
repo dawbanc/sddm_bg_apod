@@ -10,15 +10,10 @@ import QtQuick.Controls 2.15 as QQC2
 import Qt5Compat.GraphicalEffects
 
 import org.kde.plasma.components 3.0 as PlasmaComponents3
-import org.kde.plasma.plasma5support 2.0 as P5Support
+import org.kde.plasma.private.keyboardindicator as KeyboardIndicator
 import org.kde.kirigami 2.20 as Kirigami
 
 import org.kde.breeze.components
-
-// TODO: Once SDDM 0.19 is released and we are setting the font size using the
-// SDDM KCM's syncing feature, remove the `config.fontSize` overrides here and
-// the fontSize properties in various components, because the theme's default
-// font size will be correctly propagated to the login screen
 
 Item {
     id: root
@@ -38,10 +33,9 @@ Item {
     LayoutMirroring.enabled: Qt.application.layoutDirection === Qt.RightToLeft
     LayoutMirroring.childrenInherit: true
 
-    P5Support.DataSource {
-        id: keystateSource
-        engine: "keystate"
-        connectedSources: "Caps Lock"
+    KeyboardIndicator.KeyState {
+        id: capsLockState
+        key: Qt.Key_CapsLock
     }
 
     Item {
@@ -122,7 +116,7 @@ Item {
             id: clockShadow
             anchors.fill: clock
             source: clock
-            visible: !softwareRendering
+            visible: !softwareRendering && config.showClock === "true"
             radius: 6
             samples: 14
             spread: 0.3
@@ -138,7 +132,7 @@ Item {
         Clock {
             id: clock
             property Item shadow: clockShadow
-            visible: y > 0
+            visible: y > 0 && config.showClock === "true"
             anchors.horizontalCenter: parent.horizontalCenter
             y: (userListComponent.userList.y + mainStack.y)/2 - height/2
             Layout.alignment: Qt.AlignBaseline
@@ -197,8 +191,8 @@ Item {
 
                 notificationMessage: {
                     const parts = [];
-                    if (keystateSource.data["Caps Lock"]["Locked"]) {
-                        parts.push(i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Caps Lock is on"));
+                    if (capsLockState.locked) {
+                        parts.push(i18nd("plasma-desktop-sddm-theme", "Caps Lock is on"));
                     }
                     if (root.notificationMessage) {
                         parts.push(root.notificationMessage);
@@ -209,32 +203,27 @@ Item {
                 actionItemsVisible: !inputPanel.keyboardActive
                 actionItems: [
                     ActionButton {
-                        iconSource: "system-suspend"
-                        text: i18ndc("plasma_lookandfeel_org.kde.lookandfeel", "Suspend to RAM", "Sleep")
-                        fontSize: parseInt(config.fontSize) + 1
+                        icon.name: "system-suspend"
+                        text: i18ndc("plasma-desktop-sddm-theme", "Suspend to RAM", "Sleep")
                         onClicked: sddm.suspend()
                         enabled: sddm.canSuspend
                     },
                     ActionButton {
-                        iconSource: "system-reboot"
-                        text: i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Restart")
-                        fontSize: parseInt(config.fontSize) + 1
+                        icon.name: "system-reboot"
+                        text: i18nd("plasma-desktop-sddm-theme", "Restart")
                         onClicked: sddm.reboot()
                         enabled: sddm.canReboot
                     },
                     ActionButton {
-                        iconSource: "system-shutdown"
-                        text: i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Shut Down")
-                        fontSize: parseInt(config.fontSize) + 1
+                        icon.name: "system-shutdown"
+                        text: i18nd("plasma-desktop-sddm-theme", "Shut Down")
                         onClicked: sddm.powerOff()
                         enabled: sddm.canPowerOff
                     },
                     ActionButton {
-                        iconSource: "system-user-prompt"
-                        text: i18ndc("plasma_lookandfeel_org.kde.lookandfeel", "For switching to a username and password prompt", "Other…")
-                        fontSize: parseInt(config.fontSize) + 1
+                        icon.name: "system-user-prompt"
+                        text: i18ndc("plasma-desktop-sddm-theme", "For switching to a username and password prompt", "Other…")
                         onClicked: mainStack.push(userPromptComponent)
-                        enabled: true
                         visible: !userListComponent.showUsernamePrompt
                     }]
 
@@ -330,7 +319,7 @@ Item {
                 showUsernamePrompt: true
                 notificationMessage: root.notificationMessage
                 loginScreenUiVisible: loginScreenRoot.uiVisible
-                fontSize: parseInt(config.fontSize) + 2
+                fontSize: Kirigami.Theme.defaultFont.pointSize + 2
 
                 // using a model rather than a QObject list to avoid QTBUG-75900
                 userListModel: ListModel {
@@ -340,7 +329,7 @@ Item {
                     }
                     Component.onCompleted: {
                         // as we can't bind inside ListElement
-                        setProperty(0, "name", i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Type in Username and Password"));
+                        setProperty(0, "name", i18nd("plasma-desktop-sddm-theme", "Type in Username and Password"));
                         setProperty(0, "icon", Qt.resolvedUrl("faces/.face.icon"))
                     }
                 }
@@ -353,30 +342,26 @@ Item {
                 actionItemsVisible: !inputPanel.keyboardActive
                 actionItems: [
                     ActionButton {
-                        iconSource: "system-suspend"
-                        text: i18ndc("plasma_lookandfeel_org.kde.lookandfeel", "Suspend to RAM", "Sleep")
-                        fontSize: parseInt(config.fontSize) + 1
+                        icon.name: "system-suspend"
+                        text: i18ndc("plasma-desktop-sddm-theme", "Suspend to RAM", "Sleep")
                         onClicked: sddm.suspend()
                         enabled: sddm.canSuspend
                     },
                     ActionButton {
-                        iconSource: "system-reboot"
-                        text: i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Restart")
-                        fontSize: parseInt(config.fontSize) + 1
+                        icon.name: "system-reboot"
+                        text: i18nd("plasma-desktop-sddm-theme", "Restart")
                         onClicked: sddm.reboot()
                         enabled: sddm.canReboot
                     },
                     ActionButton {
-                        iconSource: "system-shutdown"
-                        text: i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Shut Down")
-                        fontSize: parseInt(config.fontSize) + 1
+                        icon.name: "system-shutdown"
+                        text: i18nd("plasma-desktop-sddm-theme", "Shut Down")
                         onClicked: sddm.powerOff()
                         enabled: sddm.canPowerOff
                     },
                     ActionButton {
-                        iconSource: "system-user-list"
-                        text: i18nd("plasma_lookandfeel_org.kde.lookandfeel", "List Users")
-                        fontSize: parseInt(config.fontSize) + 1
+                        icon.name: "system-user-list"
+                        text: i18nd("plasma-desktop-sddm-theme", "List Users")
                         onClicked: mainStack.pop()
                     }
                 ]
@@ -450,8 +435,7 @@ Item {
             PlasmaComponents3.ToolButton {
                 id: virtualKeyboardButton
 
-                text: i18ndc("plasma_lookandfeel_org.kde.lookandfeel", "Button to show/hide virtual keyboard", "Virtual Keyboard")
-                font.pointSize: config.fontSize
+                text: i18ndc("plasma-desktop-sddm-theme", "Button to show/hide virtual keyboard", "Virtual Keyboard")
                 icon.name: inputPanel.keyboardActive ? "input-keyboard-virtual-on" : "input-keyboard-virtual-off"
                 onClicked: {
                     // Otherwise the password field loses focus and virtual keyboard
@@ -473,8 +457,6 @@ Item {
             KeyboardButton {
                 id: keyboardButton
 
-                font.pointSize: config.fontSize
-
                 onKeyboardLayoutChanged: {
                     // Otherwise the password field loses focus and virtual keyboard
                     // keystrokes get eaten
@@ -492,8 +474,6 @@ Item {
 
             SessionButton {
                 id: sessionButton
-
-                font.pointSize: config.fontSize
 
                 onSessionChanged: {
                     // Otherwise the password field loses focus and virtual keyboard
@@ -515,16 +495,14 @@ Item {
                 Layout.fillWidth: true
             }
 
-            Battery {
-                fontSize: config.fontSize
-            }
+            Battery {}
         }
     }
 
     Connections {
         target: sddm
         function onLoginFailed() {
-            notificationMessage = i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Login Failed")
+            notificationMessage = i18nd("plasma-desktop-sddm-theme", "Login Failed")
             footer.enabled = true
             mainStack.enabled = true
             userListComponent.userList.opacity = 1
