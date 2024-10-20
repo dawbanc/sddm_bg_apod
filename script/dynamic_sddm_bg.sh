@@ -44,7 +44,8 @@ echo "$log_date : Downloading NASA picture of the day" >> "$logfile"
 page=$(curl -s $auth $nasa_api_url)
 # get media type
 media_type=$(printf '%s' "$page" | jq -r '.media_type')
-echo -e "$log_date : Media type: $media_type" >> "$logfile"
+echo -e "$log_date : Page      : \n\t$page" >> "$logfile"
+echo -e "$log_date : Media type: \n\t$media_type" >> "$logfile"
 if [ $media_type = "image" ]; then
 
 	media_url=$(printf '%s' "$page" | jq -r '.url')
@@ -58,7 +59,7 @@ if [ $media_type = "image" ]; then
 
 else
 
-	echo "$log_date : ERROR: Nasa Picture of the Day is not an image type...will try again tomorrow" >> "$logfile"
+	echo -e "$log_date : ERROR: Nasa Picture of the Day is not an image type...will try again tomorrow" >> "$logfile"
 	echo "$log_date : " >> "$logfile"
 
 fi
