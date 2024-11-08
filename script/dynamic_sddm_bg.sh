@@ -12,6 +12,7 @@ nasa_api_key="NASA_API_KEY_PLACEHOLDER"
 nasa_api_url="https://api.nasa.gov/planetary/apod?api_key=$nasa_api_key&date=$current_date"
 
 # wait for network
+sleep 10 # dxb_dbg wait for 10 seconds before even trying
 net_max=10
 for (( i=$net_max; i >=0; i-- )) do
 	if [ "$(hostname -i)" != "" ]; then
